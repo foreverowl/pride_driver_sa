@@ -6,6 +6,7 @@
 #include "common/syzlang.h"
 #include "usb/usb_driver.h"
 #include "usb/usb_class_driver.h"
+#include "usb/usb_attribute.h"
 
 using namespace std;
 using namespace llvm;
@@ -18,48 +19,20 @@ std::string attr_st("struct.attribute");
 std::string attr_group_st("struct.attribute_group");
 std::string pci_driver_st("struct.pci_driver");
 
-
-/*
-static DEVICE_ATTR_WO(enable_compliance); -> struct device_attribute 
-
-static struct attribute *lvs_attrs[] = {
-	&dev_attr_get_dev_desc.attr, -> struct attribute
-	&dev_attr_u1_timeout.attr,
-	&dev_attr_u2_timeout.attr,
-	&dev_attr_hot_reset.attr,
-	&dev_attr_warm_reset.attr,
-	&dev_attr_u3_entry.attr,
-	&dev_attr_u3_exit.attr,
-	&dev_attr_enable_compliance.attr,
-	NULL
-};
-ATTRIBUTE_GROUPS(lvs); -> struct attribute_group
-*/
-
-/*
-struct usb_attribute_info : usb_driver_info{
-	GlobalVariable* attr_group;
-
-    vector<string> attr_name;
-    usb_attribute_info(GlobalVariable* usb_driver_g ,GlobalVariable* attr_group_g, Module* mm) : usb_driver_info(usb_driver_g,mm) ,attr_group(attr_group_g){}
-};*/
-
-
-
-
-
 void process_usb(Module *m, FILE *infoFile, FILE *syzlangFile){	
 	GlobalVariable* usb_driver=findStruct(usb_driver_st,m);
     //process usb_class_driver
     if (GlobalVariable* usb_class_driver=findStruct(usb_class_driver_st,m)){
-    	usb_class_driver_info infostruct(usb_driver,usb_class_driver,m);
-    	infostruct.process_usb_class_driver_st(infoFile);
-		if (infostruct.gen_syzlang(syzlangFile)){
-			cout<<"success to generate "<<infostruct.usb_driver_name<<endl;
+    	usb_class_driver_info infoStruct(usb_driver,usb_class_driver,m);
+    	infoStruct.process_usb_class_driver_st(infoFile);
+		if (infoStruct.gen_syzlang(syzlangFile)){
+			cout<<"success to generate "<<infoStruct.usb_driver_name<<endl;
 		}
 	//process attribute with attribute_group
     }else if (GlobalVariable* attr_group=findStruct(attr_group_st,m)){
-    	//usb_attribute_info infostruct(usb_driver,attr_group,m);  	
+    	usb_attribute_info infoStruct(usb_driver,attr_group,m); 
+        infoStruct.process_usb_attribute(infoFile);
+        infoStruct.gen_syzlang(syzlangFile);
     }
 }
 

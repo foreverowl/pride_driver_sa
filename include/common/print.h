@@ -1,12 +1,14 @@
 #ifndef PRINT_H
 #define PRINT_H
 
-#include "stdafx.h"
-#include "constant.h"
+#include "common/stdafx.h"
+#include "common/constant.h"
 
 void visualizeControlFlow(std::string& functionname, llvm::Module* m);
 
 void printValue(llvm::Value *V);
+
+void printGlobalVariable(llvm::GlobalVariable *G);
 
 void printInst(llvm::Instruction *I);
 

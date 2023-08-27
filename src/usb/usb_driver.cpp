@@ -14,7 +14,7 @@ void usb_driver_info::process_usb_driver_st(FILE *outputFile) {
             if (actualStType->getNumOperands() > 0) {
                 // name: 0
                 usb_driver_name = printStr(actualStType->getOperand(0), outputFile, USB_DRIVER_NAME);
-                driver_sysfs_dir = "/sys/bus/usb/drivers/" + usb_driver_name;
+                usb_driver_sysfs_dir = "/sys/bus/usb/drivers/" + usb_driver_name;
             }
             if (actualStType->getNumOperands() > 1) {
                 // probe: 1

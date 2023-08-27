@@ -12,6 +12,10 @@
 #define USB_DEVNODE "USBDevNode"
 #define USB_DEVPATH "USBDevPath"
 
+#define USB_ATTRIBUTE_NAME "USBAttributeName"
+#define USB_ATTRIBUTE_SHOW "USBAttributeShow"
+#define USB_ATTRIBUTE_STORE "USBAttributStore"
+
 //PCI
 
 #define PCI_PROBE "PCIProbe"

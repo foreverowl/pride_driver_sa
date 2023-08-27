@@ -7,6 +7,7 @@
 #include "common/fops.h"
 #include "common/util.h"
 #include "common/syzlang.h"
+#include "common/attribute.h"
 struct usb_driver_info {
     llvm::GlobalVariable* usb_driver;
     llvm::Module* m;
@@ -19,13 +20,8 @@ struct usb_driver_info {
     std::string usb_register_func;
 
     uint32_t id_table[100];  // vid&pid, higher 16 bits are vid, lower 16 bits are pid
-    std::string driver_sysfs_dir;  // driver dir in sysfs
+    std::string usb_driver_sysfs_dir;  // driver dir in sysfs
     std::string usb_dev_path;  // usb device node path in /dev
-
-    // entrypoints in file_operations
-    std::unordered_map<std::string, std::string> entry;  // entrypoints
-    std::vector<std::tuple<int64_t, llvm::Type*, std::string>> ioctl_info;
-    // unordered_map<int64_t, Type*> ioctl_map;
 
     usb_driver_info(llvm::GlobalVariable* usb_driver_g, llvm::Module* mm);
     

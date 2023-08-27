@@ -17,8 +17,17 @@ void gen_resource(std::string fd_name, FILE *syzlangFile){
 void gen_syz_open_dev(std::string driver_name, std::string path, std::string fd_name, FILE *syzlangFile){
 	std::string out = "";
 	out = "syz_open_dev$"+driver_name+
-		  "(dev ptr[in, string[\""+ path +"\"]],"+
+		  "(dev ptr[in, string[\""+ path +"\"]], "+
 		  "id intptr, flags flags[open_flags]) "+ fd_name;
+	fprintf(syzlangFile,"%s\n",out.c_str());
+}
+
+void gen_syz_open_sysfs_attribute(std::string driver_name, std::string attr_name, std::string driver_path, std::string fd_name, FILE *syzlangFile){
+	std::string out = "";
+	out = "syz_open_sysfs_attribute$"+driver_name+"-"+attr_name+
+		  "(dev ptr[in, string[\""+ driver_path +"\"]], "+
+		  "attr ptr[in, string[\""+attr_name+"\"]], "+
+		  "flags flags[open_flags]) "+ fd_name;
 	fprintf(syzlangFile,"%s\n",out.c_str());
 }
 

@@ -33,13 +33,9 @@ void usb_class_driver_info::process_usb_class_driver_st(FILE *outputFile) {
         // get the initializer.
         llvm::Constant *targetConstant = usb_class_driver->getInitializer();
         llvm::ConstantStruct *actualStType = llvm::dyn_cast<llvm::ConstantStruct>(targetConstant);
-        //actualStType->print(llvm::outs());
-	    //llvm::outs() << "\n";
         if(actualStType != nullptr) {
             //name:0
             if (actualStType->getNumOperands() > 0) {
-                //actualStType->getOperand(0)->print(llvm::outs());
-                //llvm::outs() << "\n\n";
                 usb_node_name = printStr(actualStType->getOperand(0), outputFile, NO_OUTPUT);
             }
             //devnode:1

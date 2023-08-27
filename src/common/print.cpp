@@ -66,6 +66,13 @@ void printValue(llvm::Value *V) {
     }
 }
 
+void printGlobalVariable(llvm::GlobalVariable *G) {
+    if (G) {
+        llvm::outs() << "GlobalVariable: ";
+        G->print(llvm::outs());
+        llvm::outs() << "\n";
+    }
+}
 
 void printInst(llvm::Instruction *I) {
     if (I) {
