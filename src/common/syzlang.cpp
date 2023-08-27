@@ -33,13 +33,13 @@ void gen_syz_open_sysfs_attribute(std::string driver_name, std::string attr_name
 
 void gen_write(std::string driver_name, std::string fd_name, FILE *syzlangFile){
 	std::string out = "";
-	out = "read$"+driver_name+"(fd "+fd_name+", data buffer[out], len bytesize[data])";
+	out = "write$"+driver_name+"(fd "+fd_name+", data buffer[out], len bytesize[data])";
 	fprintf(syzlangFile,"%s\n",out.c_str());
 }
 
 void gen_read(std::string driver_name, std::string fd_name, FILE *syzlangFile){
 	std::string out = "";
-	out = "write$"+driver_name+"(fd "+fd_name+", data buffer[in], len bytesize[data])";
+	out = "read$"+driver_name+"(fd "+fd_name+", data buffer[in], len bytesize[data])";
 	fprintf(syzlangFile,"%s\n",out.c_str());
 }
 
