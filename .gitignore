@@ -1,0 +1,8 @@
+sa
+.vscode/settings.json
+*.llvm.bc
+*.llvm.ll
+*.dot
+*.png
+info
+syzlang

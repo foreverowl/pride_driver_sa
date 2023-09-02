@@ -18,8 +18,13 @@
 
 //PCI
 
+#define PCI_DRIVER_NAME "PCIDriverName"
 #define PCI_PROBE "PCIProbe"
 #define PCI_ID "PCIID"
+
+#define PCI_ATTRIBUTE_NAME "PCIAttributeName"
+#define PCI_ATTRIBUTE_SHOW "PCIAttributeShow"
+#define PCI_ATTRIBUTE_STORE "PCIAttributStore"
 
 //generic
 

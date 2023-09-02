@@ -1,5 +1,9 @@
 #include "common/print.h"
 
+void debug(std::string s){
+    std::cout<<s<<std::endl;
+}
+
 void visualizeControlFlow(std::string& functionname, llvm::Module* m) {
     llvm::Function* F = m->getFunction(functionname);
     std::error_code EC;

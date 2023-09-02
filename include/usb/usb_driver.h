@@ -11,16 +11,16 @@
 struct usb_driver_info {
     llvm::GlobalVariable* usb_driver;
     llvm::Module* m;
+    static bool init;
 
     std::string usb_probe_func;  // name of probe function
     std::string usb_driver_name;  // name of driver
-    uint16_t vid_table[100];      // vid
-    uint16_t pid_table[100];      // pid
+    std::string usb_driver_sysfs_dir;  // driver dir in sysfs
+    uint16_t vid_table[1000];      // vid
+    uint16_t pid_table[1000];      // pid
+    uint32_t id_table[1000];  // vid&pid, higher 16 bits are vid, lower 16 bits are pid
 
     std::string usb_register_func;
-
-    uint32_t id_table[100];  // vid&pid, higher 16 bits are vid, lower 16 bits are pid
-    std::string usb_driver_sysfs_dir;  // driver dir in sysfs
     std::string usb_dev_path;  // usb device node path in /dev
 
     usb_driver_info(llvm::GlobalVariable* usb_driver_g, llvm::Module* mm);

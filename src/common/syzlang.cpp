@@ -24,7 +24,7 @@ void gen_syz_open_dev(std::string driver_name, std::string path, std::string fd_
 
 void gen_syz_open_sysfs_attribute(std::string driver_name, std::string attr_name, std::string driver_path, std::string fd_name, FILE *syzlangFile){
 	std::string out = "";
-	out = "syz_open_sysfs_attribute$"+driver_name+"-"+attr_name+
+	out = "syz_open_sysfs_attribute$"+driver_name+"_"+attr_name+
 		  "(dev ptr[in, string[\""+ driver_path +"\"]], "+
 		  "attr ptr[in, string[\""+attr_name+"\"]], "+
 		  "flags flags[open_flags]) "+ fd_name;

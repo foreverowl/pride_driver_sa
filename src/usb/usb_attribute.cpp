@@ -24,7 +24,7 @@ bool usb_attribute_info::gen_syzlang(FILE* outputFile){
 		std::string usb_attr_name = std::get<0>(usb_attribute_rw_each);
 		std::string usb_attr_show_name = std::get<1>(usb_attribute_rw_each);
 		std::string usb_attr_store_name = std::get<2>(usb_attribute_rw_each);
-		std::string mix_name = usb_driver_name+"-"+usb_attr_name;
+		std::string mix_name = usb_driver_name+"_"+usb_attr_name;
 		std::string fd_name = gen_fd(mix_name); 
 		gen_resource(fd_name,outputFile);
 		gen_syz_open_sysfs_attribute(usb_driver_name,usb_attr_name,usb_driver_sysfs_dir,fd_name,outputFile);
