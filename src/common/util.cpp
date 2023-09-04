@@ -16,6 +16,22 @@ llvm::GlobalVariable* findStruct(const std::string& structName, llvm::Module *m)
     return structVariable;
 }
 
+std::vector<llvm::GlobalVariable*> findAllStruct(const std::string& structName, llvm::Module *m){
+    std::vector<llvm::GlobalVariable*> structVector;
+
+    for (llvm::GlobalVariable& global : m->getGlobalList()) {
+        llvm::Type* type = global.getType()->getElementType();
+        if (llvm::StructType* structType = llvm::dyn_cast<llvm::StructType>(type)) {
+			if(!structType->isLiteral()){
+				if (structType->getName() == structName) {
+                    structVector.push_back(&global);
+            	}
+			}
+        }
+    }
+    return structVector;   
+}
+
 llvm::Function* findFunctionCallinFunction(const std::string& f, const std::string& targetf, llvm::Module* m) {//find function call in function
     llvm::Function* F = m->getFunction(f);
     if (!F) {

@@ -12,6 +12,8 @@ void printGlobalVariable(llvm::GlobalVariable *G);
 
 void printInst(llvm::Instruction *I);
 
+void printAttribute(std::vector<std::tuple<std::string, llvm::Value*, llvm::Value*>> attribute_rw,FILE *outputFile);
+
 void printChain(std::vector<llvm::Value*> chain);
 
 void printPath(std::vector<llvm::BasicBlock*>& basicBlocks);

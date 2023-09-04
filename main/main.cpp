@@ -34,20 +34,25 @@ void process_usb(Module *m, FILE *infoFile, FILE *syzlangFile, GlobalVariable* s
 		}
     }
 	//process attribute with attribute_group
-    if (GlobalVariable* attr_group=findStruct(attr_group_st,m)){
-    	usb_attribute_info infoStruct(usb_driver,attr_group,m); 
+    std::vector<llvm::GlobalVariable*> usb_device_attribute = findAllStruct(dev_attr_st,m);
+    if(usb_device_attribute.size() > 0){
+        usb_attribute_info infoStruct(usb_driver,m); 
+        infoStruct.usb_device_attribute = usb_device_attribute;
         infoStruct.process_usb_attribute(infoFile);
         infoStruct.gen_syzlang(syzlangFile);
     }
+
 }
 
 void process_pci(Module *m, FILE *infoFile, FILE *syzlangFile, GlobalVariable* st){
     GlobalVariable* pci_driver = st;
     //process attribute with attribute_group
-    if (GlobalVariable* attr_group=findStruct(attr_group_st,m)){
-        pci_attribute_info infoStruct(pci_driver,attr_group,m); 
+    std::vector<llvm::GlobalVariable*> pci_device_attribute = findAllStruct(dev_attr_st,m);
+    if(pci_device_attribute.size() > 0){
+        pci_attribute_info infoStruct(pci_driver,m); 
+        infoStruct.pci_device_attribute = pci_device_attribute;
         infoStruct.process_pci_attribute(infoFile);
-        infoStruct.gen_syzlang(syzlangFile);        
+        infoStruct.gen_syzlang(syzlangFile);
     }
 }
 
@@ -91,8 +96,18 @@ int main(int argc, char **argv) {
     }else{
         cout<<"Can't identify driver!"<<endl;
     }
-    
 
+    /*
+    // process attribute no matter type
+    std::vector<llvm::GlobalVariable*> attr_group_vector = findAllStruct(attr_group_st,m);
+    for(auto i=0;i<attr_group_vector.size();i++){
+        auto attr_group_each = attr_group_vector[i];
+        std::vector<std::tuple<std::string, llvm::Value*, llvm::Value*>> attribute_rw;
+        process_attribute_group(attr_group_each,attribute_rw);
+        fprintf(infoFile, "%s:%s\n", ATTRIBUTEGROUP_NAME, attr_group_each->getName().str().c_str());
+        printAttribute(attribute_rw,infoFile);
+    }
+    */
     return 0;
 }
 

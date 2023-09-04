@@ -6,8 +6,30 @@ void process_attribute(){
 }
 
 //struct device_attribute
-void process_device_attribute(){
+void process_device_attribute(llvm::GlobalVariable* device_attribute, std::vector<std::tuple<std::string, llvm::Value*, llvm::Value*>>& attribute_rw){
 
+    if(device_attribute->hasInitializer()){
+        llvm::ConstantStruct *device_attribute_st = llvm::dyn_cast<llvm::ConstantStruct>(device_attribute->getInitializer());
+        std::string prefix = "dev_attr_";
+        std::string attr_name;
+        size_t prefixPos = device_attribute->getName().str().find(prefix);
+        if (prefixPos != std::string::npos){
+            attr_name = device_attribute->getName().str().substr(prefixPos + prefix.length());
+        }else{
+            return;
+        }
+        if(device_attribute_st){
+            if(device_attribute_st->getNumOperands()<=1){
+                return;
+            }
+            llvm::Value* attr_show = device_attribute_st->getOperand(1);
+            if(device_attribute_st->getNumOperands()<=2){
+                return;
+            }
+            llvm::Value* attr_store = device_attribute_st->getOperand(2);
+            attribute_rw.push_back(std::make_tuple(attr_name,attr_show,attr_store));
+        }
+    }
 }
 
 //struct attribute_group
@@ -36,28 +58,7 @@ void process_attribute_group(llvm::GlobalVariable* attribute_group, std::vector<
                             //%struct.device_attribute* @dev_attr_get_dev_desc
                             auto device_attribute = attribute->getOperand(0);
                             llvm::GlobalVariable *device_attribute_g = llvm::cast<llvm::GlobalVariable>(device_attribute);
-                            if(device_attribute_g->hasInitializer()){
-                                llvm::ConstantStruct *device_attribute_st = llvm::dyn_cast<llvm::ConstantStruct>(device_attribute_g->getInitializer());
-                                std::string prefix = "dev_attr_";
-                                std::string attr_name;
-                                size_t prefixPos = device_attribute_g->getName().str().find(prefix);
-                                if (prefixPos != std::string::npos){
-                                    attr_name = device_attribute_g->getName().str().substr(prefixPos + prefix.length());
-                                }else{
-                                    return;
-                                }
-                                if(device_attribute_st){
-                                    if(device_attribute_st->getNumOperands()<=1){
-                                        return;
-                                    }
-                                    llvm::Value* attr_show = device_attribute_st->getOperand(1);
-                                    if(device_attribute_st->getNumOperands()<=2){
-                                        return;
-                                    }
-                                    llvm::Value* attr_store = device_attribute_st->getOperand(2);
-                                    attribute_rw.push_back(std::make_tuple(attr_name,attr_show,attr_store));
-                                }
-                            }
+                            process_device_attribute(device_attribute_g,attribute_rw);
                         }
                     }
                 }

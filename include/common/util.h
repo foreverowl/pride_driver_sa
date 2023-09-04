@@ -4,6 +4,8 @@
 
 llvm::GlobalVariable* findStruct(const std::string& structName, llvm::Module *m);
 
+std::vector<llvm::GlobalVariable*> findAllStruct(const std::string& structName, llvm::Module *m);
+
 llvm::Function* findFunctionCallinFunction(const std::string& f, const std::string& targetf, llvm::Module* m);
 
 #endif

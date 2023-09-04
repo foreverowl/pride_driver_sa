@@ -5,7 +5,7 @@
 //struct attribute
 void process_attribute();
 //struct device_attribute
-void process_device_attribute();
+void process_device_attribute(llvm::GlobalVariable* device_attribute, std::vector<std::tuple<std::string, llvm::Value*, llvm::Value*>>& attribute_rw);
 //struct attribute_group
 void process_attribute_group(llvm::GlobalVariable* attribute_group,std::vector<std::tuple<std::string, llvm::Value*, llvm::Value*>> &attribute_rw);
 

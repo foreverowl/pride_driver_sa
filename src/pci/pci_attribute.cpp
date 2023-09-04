@@ -1,13 +1,15 @@
 #include "pci/pci_attribute.h"
 
-pci_attribute_info::pci_attribute_info(llvm::GlobalVariable* pci_driver_g ,llvm::GlobalVariable* pci_attribute_group_g, llvm::Module* mm)
-	: pci_driver_info(pci_driver_g, mm), pci_attribute_group(pci_attribute_group_g) {
+pci_attribute_info::pci_attribute_info(llvm::GlobalVariable* pci_driver_g ,llvm::Module* mm)
+	: pci_driver_info(pci_driver_g, mm) {
 }
 
 void pci_attribute_info::process_pci_attribute(FILE *outputFile){
 	process_pci_driver_st(outputFile);
 	std::vector<std::tuple<std::string, llvm::Value*, llvm::Value*>> attribute_rw;
-	process_attribute_group(pci_attribute_group,attribute_rw);
+	for(auto i=0;i<pci_device_attribute.size();i++){
+		process_device_attribute(pci_device_attribute[i],attribute_rw);
+	}
 	for(auto i=0; i<attribute_rw.size(); i++){
 		auto attribute_rw_each = attribute_rw[i];
 		std::string pci_attr_name = std::get<0>(attribute_rw_each);

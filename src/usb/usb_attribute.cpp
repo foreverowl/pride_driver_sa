@@ -1,13 +1,15 @@
 #include "usb/usb_attribute.h"
 
-usb_attribute_info::usb_attribute_info(llvm::GlobalVariable* usb_driver_g ,llvm::GlobalVariable* usb_attribute_group_g, llvm::Module* mm)
-	: usb_driver_info(usb_driver_g, mm), usb_attribute_group(usb_attribute_group_g) {
+usb_attribute_info::usb_attribute_info(llvm::GlobalVariable* usb_driver_g , llvm::Module* mm)
+	: usb_driver_info(usb_driver_g, mm) {
 }
 
 void usb_attribute_info::process_usb_attribute(FILE *outputFile){
 	process_usb_driver_st(outputFile);
 	std::vector<std::tuple<std::string, llvm::Value*, llvm::Value*>> attribute_rw;
-	process_attribute_group(usb_attribute_group,attribute_rw);
+	for(auto i=0;i<usb_device_attribute.size();i++){
+		process_device_attribute(usb_device_attribute[i],attribute_rw);
+	}
 	for(auto i=0; i<attribute_rw.size(); i++){
 		auto attribute_rw_each = attribute_rw[i];
 		std::string usb_attr_name = std::get<0>(attribute_rw_each);

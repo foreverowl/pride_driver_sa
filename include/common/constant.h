@@ -12,6 +12,7 @@
 #define USB_DEVNODE "USBDevNode"
 #define USB_DEVPATH "USBDevPath"
 
+#define USB_ATTRIBUTEGROUP_NAME "USBAttributeGroupName"
 #define USB_ATTRIBUTE_NAME "USBAttributeName"
 #define USB_ATTRIBUTE_SHOW "USBAttributeShow"
 #define USB_ATTRIBUTE_STORE "USBAttributStore"
@@ -22,6 +23,7 @@
 #define PCI_PROBE "PCIProbe"
 #define PCI_ID "PCIID"
 
+#define PCI_ATTRIBUTEGROUP_NAME "PCIAttributeGroupName"
 #define PCI_ATTRIBUTE_NAME "PCIAttributeName"
 #define PCI_ATTRIBUTE_SHOW "PCIAttributeShow"
 #define PCI_ATTRIBUTE_STORE "PCIAttributStore"
@@ -35,7 +37,9 @@
 
 //ATTRIBUTE
 
-#define DEVATTR_SHOW "DEVSHOW"
-#define DEVATTR_STORE "DEVSTORE"
+#define ATTRIBUTEGROUP_NAME "AttributeGroupName"
+#define ATTRIBUTE_NAME "AttributeName"
+#define ATTRIBUTE_SHOW "AttributeShow"
+#define ATTRIBUTE_STORE "AttributStore"
 
 #endif 

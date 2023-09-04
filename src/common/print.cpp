@@ -66,7 +66,7 @@ void printValue(llvm::Value *V) {
     if (V) {
         llvm::outs() << "Value: ";
         V->print(llvm::outs());
-        llvm::outs() << "\n";
+        llvm::outs() << "\n\n";
     }
 }
 
@@ -74,7 +74,7 @@ void printGlobalVariable(llvm::GlobalVariable *G) {
     if (G) {
         llvm::outs() << "GlobalVariable: ";
         G->print(llvm::outs());
-        llvm::outs() << "\n";
+        llvm::outs() << "\n\n";
     }
 }
 
@@ -82,8 +82,20 @@ void printInst(llvm::Instruction *I) {
     if (I) {
         llvm::outs() << "Instruction: ";
         I->print(llvm::outs());
-        llvm::outs() << "\n";
+        llvm::outs() << "\n\n";
     }
+}
+
+void printAttribute(std::vector<std::tuple<std::string, llvm::Value*, llvm::Value*>> attribute_rw, FILE *outputFile){
+	for(auto i=0; i<attribute_rw.size(); i++){
+		auto attribute_rw_each = attribute_rw[i];
+		std::string attr_name = std::get<0>(attribute_rw_each);
+		llvm::Value* attr_show = std::get<1>(attribute_rw_each);
+		llvm::Value* attr_store = std::get<2>(attribute_rw_each);
+		fprintf(outputFile, "%s:%s\n", ATTRIBUTE_NAME, attr_name.c_str());
+        printFuncVal(attr_show,outputFile,ATTRIBUTE_SHOW);
+        printFuncVal(attr_store,outputFile,ATTRIBUTE_STORE);
+	}
 }
 
 void printChain(std::vector<llvm::Value*> chain) {

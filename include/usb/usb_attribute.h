@@ -20,9 +20,9 @@ ATTRIBUTE_GROUPS(lvs); -> struct attribute_group
 
 
 struct usb_attribute_info : usb_driver_info{
-	llvm::GlobalVariable* usb_attribute_group;
+	std::vector<llvm::GlobalVariable*> usb_device_attribute;
     std::vector<std::tuple<std::string, std::string, std::string>> usb_attribute_rw;//attr's name,whether read(show),whether write(store)
-    usb_attribute_info(llvm::GlobalVariable* usb_driver_g ,llvm::GlobalVariable* usb_attribute_group_g, llvm::Module* mm);
+    usb_attribute_info(llvm::GlobalVariable* usb_driver_g ,llvm::Module* mm);
 
 	void process_usb_attribute(FILE *outputFile);
 	bool gen_syzlang(FILE* outputFile) override ;
