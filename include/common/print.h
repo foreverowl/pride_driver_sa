@@ -4,6 +4,8 @@
 #include "common/stdafx.h"
 #include "common/constant.h"
 
+void debug(std::string s);
+
 void visualizeControlFlow(std::string& functionname, llvm::Module* m);
 
 void printValue(llvm::Value *V);

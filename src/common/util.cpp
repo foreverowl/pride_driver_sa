@@ -3,6 +3,7 @@ llvm::GlobalVariable* findStruct(const std::string& structName, llvm::Module *m)
     llvm::GlobalVariable* structVariable = nullptr;
 
     for (llvm::GlobalVariable& global : m->getGlobalList()) {
+        //getType():struct * getElementType():struct
         llvm::Type* type = global.getType()->getElementType();
         if (llvm::StructType* structType = llvm::dyn_cast<llvm::StructType>(type)) {
 			if(!structType->isLiteral()){
